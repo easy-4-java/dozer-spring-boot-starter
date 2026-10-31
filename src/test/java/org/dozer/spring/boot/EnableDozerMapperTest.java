@@ -17,6 +17,7 @@ package org.dozer.spring.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,9 +31,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class EnableDozerMapperTest {
 
     @Test
-    @DisplayName("Instance can be created via constructor")
-    void testInstantiation() {
-        EnableDozerMapper instance = new EnableDozerMapper();
-        assertThat(instance).isNotNull();
+    @DisplayName("Imports the Dozer auto-configuration")
+    void testAutoConfigurationImport() {
+        assertThat(EnableDozerMapper.class.isAnnotation()).isTrue();
+        Import importAnnotation = EnableDozerMapper.class.getAnnotation(Import.class);
+        assertThat(importAnnotation).isNotNull();
+        assertThat(importAnnotation.value()).contains(DozerAutoConfiguration.class);
     }
 }
