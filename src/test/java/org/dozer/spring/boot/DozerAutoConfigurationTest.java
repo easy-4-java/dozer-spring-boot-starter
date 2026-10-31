@@ -51,9 +51,38 @@ class DozerAutoConfigurationTest {
     }
 
     @Test
-    @DisplayName("Auto-configuration is absent when property is not set")
-    void testNotLoadedWhenPropertyAbsent() {
+    @DisplayName("Auto-configuration loads with default properties")
+    void testLoadsWithDefaultProperties() {
         runner.withUserConfiguration(DozerAutoConfiguration.class)
-                .run(context -> assertThat(context).doesNotHaveBean(DozerAutoConfiguration.class));
+                .run(context -> assertThat(context).hasSingleBean(DozerAutoConfiguration.class));
     }
+    @Test
+    @DisplayName("Configured mapper maps bean properties")
+    void testBeanMappingAndMappingFilesConfiguration() throws Exception {
+        DozerProperties properties = new DozerProperties();
+        properties.setMappingFiles(new String[] { "classpath*:missing-dozer-*.xml" });
+        assertThat(new DozerAutoConfiguration()
+                .dozerBeanMapperFactoryBean(properties, null, null, null)).isNotNull();
+
+        runner.withUserConfiguration(DozerAutoConfiguration.class).run(context -> {
+            Source source = new Source();
+            source.setName("Alice");
+            Destination destination = context.getBean(org.dozer.DozerBeanMapper.class)
+                    .map(source, Destination.class);
+            assertThat(destination.getName()).isEqualTo("Alice");
+        });
+    }
+
+    public static class Source {
+        private String name;
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+    }
+
+    public static class Destination {
+        private String name;
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+    }
+
 }

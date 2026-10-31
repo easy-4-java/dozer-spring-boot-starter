@@ -41,16 +41,9 @@ class DozerPropertiesTest {
     @DisplayName("Field 'mappingFiles' can be set and read")
     void testMappingFilesField() {
         DozerProperties props = new DozerProperties();
-        // Use reflection to set private field (covers all fields including those without setters)
-        try {
-            java.lang.reflect.Field f = DozerProperties.class.getDeclaredField("mappingFiles");
-            f.setAccessible(true);
-            f.set(props, null);
-            Object value = f.get(props);
-            assertThat(value).isNotNull();
-        } catch (Exception e) {
-            // Field may have a more complex type; skip silently
-        }
+        String[] mappingFiles = { "classpath*:/*.dozer.xml" };
+        props.setMappingFiles(mappingFiles);
+        assertThat(props.getMappingFiles()).containsExactly(mappingFiles);
     }
 
     @Test

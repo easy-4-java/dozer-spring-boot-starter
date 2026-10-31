@@ -35,4 +35,16 @@ class BigDecimalStringConverterTest {
         BigDecimalStringConverter instance = new BigDecimalStringConverter();
         assertThat(instance).isNotNull();
     }
+    @Test
+    void convertsBetweenBigDecimalAndString() {
+        BigDecimalStringConverter converter = new BigDecimalStringConverter();
+        java.math.BigDecimal value = new java.math.BigDecimal("12.50");
+        assertThat(converter.convert(null, "12.50", java.math.BigDecimal.class, String.class)).isEqualTo(value);
+        assertThat(converter.convert(null, value, String.class, java.math.BigDecimal.class)).isEqualTo("12.50");
+        assertThat(converter.convert(null, null, java.math.BigDecimal.class, String.class)).isNull();
+        org.assertj.core.api.Assertions.assertThatThrownBy(() ->
+                converter.convert(null, 1, java.math.BigDecimal.class, Integer.class))
+                .isInstanceOf(org.dozer.MappingException.class);
+    }
+
 }
