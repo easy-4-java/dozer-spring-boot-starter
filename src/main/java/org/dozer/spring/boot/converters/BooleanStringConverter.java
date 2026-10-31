@@ -24,11 +24,11 @@ public final class BooleanStringConverter implements CustomConverter {
 		}
 		//String to Boolean
 		if (sourceClass.equals(String.class)&&sourceFieldValue instanceof String) {
-			return converter.convert(String.class, sourceFieldValue);
+			return converter.convert(Boolean.class, sourceFieldValue);
 		}
 		//Boolean to String
 		if (sourceClass.equals(Boolean.class)&&sourceFieldValue instanceof Boolean) {
-			return Boolean.parseBoolean((String) sourceFieldValue);
+			return sourceFieldValue.toString();
 		}
 		throw new MappingException( "Converter BooleanStringConverter used incorrectly. Arguments passed in were:" + destinationFieldValue + " and " + sourceFieldValue);
 	}
