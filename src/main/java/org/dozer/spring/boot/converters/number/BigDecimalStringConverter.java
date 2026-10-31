@@ -26,7 +26,7 @@ public final class BigDecimalStringConverter implements CustomConverter {
 		}
 		//String to BigDecimal
 		if (sourceClass.equals(String.class)&&sourceFieldValue instanceof String) {
-			return converter.convert(String.class, sourceFieldValue);
+			return converter.convert(BigDecimal.class, sourceFieldValue);
 		}
 		//BigDecimal to String
 		if (sourceClass.equals(BigDecimal.class)&&sourceFieldValue instanceof BigDecimal ) {

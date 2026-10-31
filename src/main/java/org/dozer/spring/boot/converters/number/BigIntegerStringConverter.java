@@ -26,7 +26,7 @@ public final class BigIntegerStringConverter implements CustomConverter {
 		}
 		//String to BigInteger
 		if (sourceClass.equals(String.class)&&sourceFieldValue instanceof String) {
-			return converter.convert(String.class, sourceFieldValue);
+			return converter.convert(BigInteger.class, sourceFieldValue);
 		}
 		//BigInteger to String
 		if (sourceClass.equals(BigInteger.class)&&sourceFieldValue instanceof BigInteger) {
