@@ -35,4 +35,15 @@ class BooleanStringConverterTest {
         BooleanStringConverter instance = new BooleanStringConverter();
         assertThat(instance).isNotNull();
     }
+    @Test
+    void convertsBetweenBooleanAndString() {
+        BooleanStringConverter converter = new BooleanStringConverter();
+        assertThat(converter.convert(null, "true", Boolean.class, String.class)).isEqualTo(true);
+        assertThat(converter.convert(null, Boolean.FALSE, String.class, Boolean.class)).isEqualTo("false");
+        assertThat(converter.convert(null, null, Boolean.class, String.class)).isNull();
+        org.assertj.core.api.Assertions.assertThatThrownBy(() ->
+                converter.convert(null, 1, Boolean.class, Integer.class))
+                .isInstanceOf(org.dozer.MappingException.class);
+    }
+
 }
