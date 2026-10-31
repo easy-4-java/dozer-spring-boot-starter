@@ -35,4 +35,16 @@ class BigIntegerStringConverterTest {
         BigIntegerStringConverter instance = new BigIntegerStringConverter();
         assertThat(instance).isNotNull();
     }
+    @Test
+    void convertsBetweenBigIntegerAndString() {
+        BigIntegerStringConverter converter = new BigIntegerStringConverter();
+        java.math.BigInteger value = new java.math.BigInteger("12345678901234567890");
+        assertThat(converter.convert(null, "12345678901234567890", java.math.BigInteger.class, String.class)).isEqualTo(value);
+        assertThat(converter.convert(null, value, String.class, java.math.BigInteger.class)).isEqualTo("12345678901234567890");
+        assertThat(converter.convert(null, null, java.math.BigInteger.class, String.class)).isNull();
+        org.assertj.core.api.Assertions.assertThatThrownBy(() ->
+                converter.convert(null, 1, java.math.BigInteger.class, Integer.class))
+                .isInstanceOf(org.dozer.MappingException.class);
+    }
+
 }
