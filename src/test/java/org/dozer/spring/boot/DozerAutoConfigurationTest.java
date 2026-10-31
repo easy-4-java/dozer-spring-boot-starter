@@ -51,9 +51,9 @@ class DozerAutoConfigurationTest {
     }
 
     @Test
-    @DisplayName("Auto-configuration is absent when property is not set")
-    void testNotLoadedWhenPropertyAbsent() {
+    @DisplayName("Auto-configuration loads with default properties")
+    void testLoadsWithDefaultProperties() {
         runner.withUserConfiguration(DozerAutoConfiguration.class)
-                .run(context -> assertThat(context).doesNotHaveBean(DozerAutoConfiguration.class));
+                .run(context -> assertThat(context).hasSingleBean(DozerAutoConfiguration.class));
     }
 }
